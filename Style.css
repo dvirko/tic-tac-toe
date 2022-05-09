@@ -6,6 +6,11 @@ section {
     text-align: center;
 }
 
+.game--score {
+    font-size: 20px;
+    color: #d7a62f;
+}
+
 .game--title {
     font-size: 100px;
     color: #d7a62f;
@@ -31,9 +36,11 @@ section {
     line-height: 100px;
     font-size: 60px;
 }
+
 .cell:hover {
     background-color:green;
 }
+
 .cell:active{
     background-color:#84ab41
 }
@@ -45,11 +52,18 @@ section {
 }
 
 .game--restart {
-    background-color: #f7e4ac;
+    background-color: white;
     width: 200px;
     height: 50px;
     font-size: 25px;
     color: #5586e2;
+    transition-duration: 0.4s;
     box-shadow: 2px 2px 2px 2px #d86c23;
     border: 2px solid #d86c23;
+    cursor: pointer;
+}
+
+.game--restart:hover {
+    background-color:#d86c23;
+    color: white;
 }

@@ -131,6 +131,13 @@ function handleResultValidation() {
 
     if (roundWon) {
         statusDisplay.innerHTML = winningMessage();
+        if(currentPlayer === "X"){
+            score[0] += 1;
+            x_scoreDisplay.innerHTML ='X : '+score[0];
+        }else{
+            score[1] +=1;
+            o_scoreDisplay.innerHTML ='O : '+score[1]; 
+        }
         gameActive = false;
         return 1;
     }
@@ -177,15 +184,15 @@ function handleCellClick(clickedCellEvent) {
         return;
     }
     handleCellPlayed(clickedCell, clickedCellIndex);
+    buildTree();
+}
+
+function buildTree(){
     let child = new Node(0,new Board(gameState.slice(),currentPlayer,handleResultValidation()));
     let check_exsit = BFS_search(root,child);
-    if(!check_exsit) {
-        move.pop().add_neighbors(child);
-        move.push(child);
-    }else{
-        move.pop().add_neighbors(check_exsit);
-        move.push(check_exsit);
-    }
+    child = !check_exsit ? child : check_exsit;
+    move.pop().add_neighbors(child);
+    move.push(child);
 }
 
 function handleRestartGame() {
@@ -198,6 +205,7 @@ function handleRestartGame() {
     statusDisplay.innerHTML = currentPlayerTurn();
     document.querySelectorAll('.cell').forEach(cell => cell.innerHTML = "");
 }
+
 // Game part 
 
 let gameActive = true;
@@ -205,6 +213,9 @@ let currentPlayer = "X";
 let gameState = ["", "", "", "", "", "", "", "", ""];
 
 const statusDisplay = document.querySelector('.game--status');
+const x_scoreDisplay = document.querySelector('.x--score');
+const o_scoreDisplay = document.querySelector('.o--score');
+const score = [0,0];
 const winningMessage = () => `Player ${currentPlayer} has won!`;
 const drawMessage = () => `Game ended in a draw!`;
 const currentPlayerTurn = () => `It's ${currentPlayer}'s turn`;
@@ -219,7 +230,8 @@ const winningConditions = [
     [2, 4, 6]
 ];
 const move = [];
-const root = new Node(0,new Board(gameState.slice(),currentPlayer,handleResultValidation()));
+const root = new Node(0,new Board(gameState.slice(),currentPlayer,0));
+
 statusDisplay.innerHTML = currentPlayerTurn();
 move.push(root);
 
